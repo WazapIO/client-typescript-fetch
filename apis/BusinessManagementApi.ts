@@ -22,7 +22,7 @@ import {
     APIResponseToJSON,
 } from '../models';
 
-export interface InstancesInstanceKeyBusinessCatalogGetRequest {
+export interface FetchCatlogRequest {
     instanceKey: string;
 }
 
@@ -35,9 +35,9 @@ export class BusinessManagementApi extends runtime.BaseAPI {
      * Gets list of all products registered by you.
      * Fetches the catlog.
      */
-    async instancesInstanceKeyBusinessCatalogGetRaw(requestParameters: InstancesInstanceKeyBusinessCatalogGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
+    async fetchCatlogRaw(requestParameters: FetchCatlogRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
-            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyBusinessCatalogGet.');
+            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling fetchCatlog.');
         }
 
         const queryParameters: any = {};
@@ -62,8 +62,8 @@ export class BusinessManagementApi extends runtime.BaseAPI {
      * Gets list of all products registered by you.
      * Fetches the catlog.
      */
-    async instancesInstanceKeyBusinessCatalogGet(requestParameters: InstancesInstanceKeyBusinessCatalogGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
-        const response = await this.instancesInstanceKeyBusinessCatalogGetRaw(requestParameters, initOverrides);
+    async fetchCatlog(requestParameters: FetchCatlogRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
+        const response = await this.fetchCatlogRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

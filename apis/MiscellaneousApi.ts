@@ -25,12 +25,12 @@ import {
     UserInfoPayloadToJSON,
 } from '../models';
 
-export interface InstancesInstanceKeyMiscProfilePicGetRequest {
+export interface GetProfilePicRequest {
     instanceKey: string;
     jid: string;
 }
 
-export interface InstancesInstanceKeyMiscUserInfoPostRequest {
+export interface GetUsersInfoRequest {
     instanceKey: string;
     data: UserInfoPayload;
 }
@@ -44,13 +44,13 @@ export class MiscellaneousApi extends runtime.BaseAPI {
      * Returns the profile pic of the given user.
      * Get profile pic.
      */
-    async instancesInstanceKeyMiscProfilePicGetRaw(requestParameters: InstancesInstanceKeyMiscProfilePicGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
+    async getProfilePicRaw(requestParameters: GetProfilePicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
-            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyMiscProfilePicGet.');
+            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling getProfilePic.');
         }
 
         if (requestParameters.jid === null || requestParameters.jid === undefined) {
-            throw new runtime.RequiredError('jid','Required parameter requestParameters.jid was null or undefined when calling instancesInstanceKeyMiscProfilePicGet.');
+            throw new runtime.RequiredError('jid','Required parameter requestParameters.jid was null or undefined when calling getProfilePic.');
         }
 
         const queryParameters: any = {};
@@ -79,8 +79,8 @@ export class MiscellaneousApi extends runtime.BaseAPI {
      * Returns the profile pic of the given user.
      * Get profile pic.
      */
-    async instancesInstanceKeyMiscProfilePicGet(requestParameters: InstancesInstanceKeyMiscProfilePicGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
-        const response = await this.instancesInstanceKeyMiscProfilePicGetRaw(requestParameters, initOverrides);
+    async getProfilePic(requestParameters: GetProfilePicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
+        const response = await this.getProfilePicRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -88,13 +88,13 @@ export class MiscellaneousApi extends runtime.BaseAPI {
      * Gets the user info for the given user ids. This does not checks if user is registered or not
      * Fetches the users info.
      */
-    async instancesInstanceKeyMiscUserInfoPostRaw(requestParameters: InstancesInstanceKeyMiscUserInfoPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
+    async getUsersInfoRaw(requestParameters: GetUsersInfoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
-            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyMiscUserInfoPost.');
+            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling getUsersInfo.');
         }
 
         if (requestParameters.data === null || requestParameters.data === undefined) {
-            throw new runtime.RequiredError('data','Required parameter requestParameters.data was null or undefined when calling instancesInstanceKeyMiscUserInfoPost.');
+            throw new runtime.RequiredError('data','Required parameter requestParameters.data was null or undefined when calling getUsersInfo.');
         }
 
         const queryParameters: any = {};
@@ -122,8 +122,8 @@ export class MiscellaneousApi extends runtime.BaseAPI {
      * Gets the user info for the given user ids. This does not checks if user is registered or not
      * Fetches the users info.
      */
-    async instancesInstanceKeyMiscUserInfoPost(requestParameters: InstancesInstanceKeyMiscUserInfoPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
-        const response = await this.instancesInstanceKeyMiscUserInfoPostRaw(requestParameters, initOverrides);
+    async getUsersInfo(requestParameters: GetUsersInfoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
+        const response = await this.getUsersInfoRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
