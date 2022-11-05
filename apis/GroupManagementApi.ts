@@ -15,26 +15,26 @@
 
 import * as runtime from '../runtime';
 import type {
+  APIResponse,
+  GroupCreatePayload,
+  GroupUpdateDescriptionPayload,
+  GroupUpdateNamePayload,
+  GroupUpdateParticipantsPayload,
   InstancesInstanceKeyGroupsGroupIdProfilePicPutRequest,
-  MainAPIResponse,
-  StructsGroupCreatePayload,
-  StructsGroupUpdateDescriptionPayload,
-  StructsGroupUpdateNamePayload,
-  StructsGroupUpdateParticipantsPayload,
 } from '../models';
 import {
+    APIResponseFromJSON,
+    APIResponseToJSON,
+    GroupCreatePayloadFromJSON,
+    GroupCreatePayloadToJSON,
+    GroupUpdateDescriptionPayloadFromJSON,
+    GroupUpdateDescriptionPayloadToJSON,
+    GroupUpdateNamePayloadFromJSON,
+    GroupUpdateNamePayloadToJSON,
+    GroupUpdateParticipantsPayloadFromJSON,
+    GroupUpdateParticipantsPayloadToJSON,
     InstancesInstanceKeyGroupsGroupIdProfilePicPutRequestFromJSON,
     InstancesInstanceKeyGroupsGroupIdProfilePicPutRequestToJSON,
-    MainAPIResponseFromJSON,
-    MainAPIResponseToJSON,
-    StructsGroupCreatePayloadFromJSON,
-    StructsGroupCreatePayloadToJSON,
-    StructsGroupUpdateDescriptionPayloadFromJSON,
-    StructsGroupUpdateDescriptionPayloadToJSON,
-    StructsGroupUpdateNamePayloadFromJSON,
-    StructsGroupUpdateNamePayloadToJSON,
-    StructsGroupUpdateParticipantsPayloadFromJSON,
-    StructsGroupUpdateParticipantsPayloadToJSON,
 } from '../models';
 
 export interface InstancesInstanceKeyGroupsAdminGetRequest {
@@ -43,7 +43,7 @@ export interface InstancesInstanceKeyGroupsAdminGetRequest {
 
 export interface InstancesInstanceKeyGroupsCreatePostRequest {
     instanceKey: string;
-    data: StructsGroupCreatePayload;
+    data: GroupCreatePayload;
 }
 
 export interface InstancesInstanceKeyGroupsGetRequest {
@@ -65,7 +65,7 @@ export interface InstancesInstanceKeyGroupsGroupIdDeleteRequest {
 export interface InstancesInstanceKeyGroupsGroupIdDescriptionPutRequest {
     instanceKey: string;
     groupId: string;
-    data: StructsGroupUpdateDescriptionPayload;
+    data: GroupUpdateDescriptionPayload;
 }
 
 export interface InstancesInstanceKeyGroupsGroupIdGetRequest {
@@ -87,31 +87,31 @@ export interface InstancesInstanceKeyGroupsGroupIdLockPutRequest {
 export interface InstancesInstanceKeyGroupsGroupIdNamePutRequest {
     instanceKey: string;
     groupId: string;
-    data: StructsGroupUpdateNamePayload;
+    data: GroupUpdateNamePayload;
 }
 
 export interface InstancesInstanceKeyGroupsGroupIdParticipantsAddPostRequest {
     instanceKey: string;
     groupId: string;
-    data: StructsGroupUpdateParticipantsPayload;
+    data: GroupUpdateParticipantsPayload;
 }
 
 export interface InstancesInstanceKeyGroupsGroupIdParticipantsDemotePutRequest {
     instanceKey: string;
     groupId: string;
-    data: StructsGroupUpdateParticipantsPayload;
+    data: GroupUpdateParticipantsPayload;
 }
 
 export interface InstancesInstanceKeyGroupsGroupIdParticipantsPromotePutRequest {
     instanceKey: string;
     groupId: string;
-    data: StructsGroupUpdateParticipantsPayload;
+    data: GroupUpdateParticipantsPayload;
 }
 
 export interface InstancesInstanceKeyGroupsGroupIdParticipantsRemoveDeleteRequest {
     instanceKey: string;
     groupId: string;
-    data: StructsGroupUpdateParticipantsPayload;
+    data: GroupUpdateParticipantsPayload;
 }
 
 export interface InstancesInstanceKeyGroupsGroupIdProfilePicPutOperationRequest {
@@ -134,7 +134,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Returns list of all groups in which you are admin.
      * Get admin groupss.
      */
-    async instancesInstanceKeyGroupsAdminGetRaw(requestParameters: InstancesInstanceKeyGroupsAdminGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsAdminGetRaw(requestParameters: InstancesInstanceKeyGroupsAdminGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsAdminGet.');
         }
@@ -154,14 +154,14 @@ export class GroupManagementApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Returns list of all groups in which you are admin.
      * Get admin groupss.
      */
-    async instancesInstanceKeyGroupsAdminGet(requestParameters: InstancesInstanceKeyGroupsAdminGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsAdminGet(requestParameters: InstancesInstanceKeyGroupsAdminGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsAdminGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -170,7 +170,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Creates a group with the participant data. The creator is automatically added to the group.
      * Create group.
      */
-    async instancesInstanceKeyGroupsCreatePostRaw(requestParameters: InstancesInstanceKeyGroupsCreatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsCreatePostRaw(requestParameters: InstancesInstanceKeyGroupsCreatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsCreatePost.');
         }
@@ -194,17 +194,17 @@ export class GroupManagementApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsGroupCreatePayloadToJSON(requestParameters.data),
+            body: GroupCreatePayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Creates a group with the participant data. The creator is automatically added to the group.
      * Create group.
      */
-    async instancesInstanceKeyGroupsCreatePost(requestParameters: InstancesInstanceKeyGroupsCreatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsCreatePost(requestParameters: InstancesInstanceKeyGroupsCreatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsCreatePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -213,7 +213,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Returns list of all groups with participants data. Set include_participants to false to exclude participants data.
      * Get all groups.
      */
-    async instancesInstanceKeyGroupsGetRaw(requestParameters: InstancesInstanceKeyGroupsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsGetRaw(requestParameters: InstancesInstanceKeyGroupsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsGet.');
         }
@@ -237,14 +237,14 @@ export class GroupManagementApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Returns list of all groups with participants data. Set include_participants to false to exclude participants data.
      * Get all groups.
      */
-    async instancesInstanceKeyGroupsGet(requestParameters: InstancesInstanceKeyGroupsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsGet(requestParameters: InstancesInstanceKeyGroupsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -253,7 +253,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Set if non-admins are allowed to send messages in groups
      * Set group announce.
      */
-    async instancesInstanceKeyGroupsGroupIdAnnouncePutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdAnnouncePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsGroupIdAnnouncePutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdAnnouncePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsGroupIdAnnouncePut.');
         }
@@ -281,14 +281,14 @@ export class GroupManagementApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Set if non-admins are allowed to send messages in groups
      * Set group announce.
      */
-    async instancesInstanceKeyGroupsGroupIdAnnouncePut(requestParameters: InstancesInstanceKeyGroupsGroupIdAnnouncePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsGroupIdAnnouncePut(requestParameters: InstancesInstanceKeyGroupsGroupIdAnnouncePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsGroupIdAnnouncePutRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -297,7 +297,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Leaves the specified group.
      * Leaves the group.
      */
-    async instancesInstanceKeyGroupsGroupIdDeleteRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsGroupIdDeleteRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsGroupIdDelete.');
         }
@@ -321,14 +321,14 @@ export class GroupManagementApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Leaves the specified group.
      * Leaves the group.
      */
-    async instancesInstanceKeyGroupsGroupIdDelete(requestParameters: InstancesInstanceKeyGroupsGroupIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsGroupIdDelete(requestParameters: InstancesInstanceKeyGroupsGroupIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsGroupIdDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -337,7 +337,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Changes the group description
      * Set group description.
      */
-    async instancesInstanceKeyGroupsGroupIdDescriptionPutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdDescriptionPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsGroupIdDescriptionPutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdDescriptionPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsGroupIdDescriptionPut.');
         }
@@ -365,17 +365,17 @@ export class GroupManagementApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsGroupUpdateDescriptionPayloadToJSON(requestParameters.data),
+            body: GroupUpdateDescriptionPayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Changes the group description
      * Set group description.
      */
-    async instancesInstanceKeyGroupsGroupIdDescriptionPut(requestParameters: InstancesInstanceKeyGroupsGroupIdDescriptionPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsGroupIdDescriptionPut(requestParameters: InstancesInstanceKeyGroupsGroupIdDescriptionPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsGroupIdDescriptionPutRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -384,7 +384,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Fetches the group data.
      * Get group.
      */
-    async instancesInstanceKeyGroupsGroupIdGetRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsGroupIdGetRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsGroupIdGet.');
         }
@@ -408,14 +408,14 @@ export class GroupManagementApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Fetches the group data.
      * Get group.
      */
-    async instancesInstanceKeyGroupsGroupIdGet(requestParameters: InstancesInstanceKeyGroupsGroupIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsGroupIdGet(requestParameters: InstancesInstanceKeyGroupsGroupIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsGroupIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -424,7 +424,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Gets the invite code of the group.
      * Get group invite code.
      */
-    async instancesInstanceKeyGroupsGroupIdInviteCodeGetRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdInviteCodeGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsGroupIdInviteCodeGetRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdInviteCodeGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsGroupIdInviteCodeGet.');
         }
@@ -448,14 +448,14 @@ export class GroupManagementApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Gets the invite code of the group.
      * Get group invite code.
      */
-    async instancesInstanceKeyGroupsGroupIdInviteCodeGet(requestParameters: InstancesInstanceKeyGroupsGroupIdInviteCodeGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsGroupIdInviteCodeGet(requestParameters: InstancesInstanceKeyGroupsGroupIdInviteCodeGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsGroupIdInviteCodeGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -464,7 +464,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Set if non-admins are allowed to change the group dp and other stuff
      * Set group locked.
      */
-    async instancesInstanceKeyGroupsGroupIdLockPutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdLockPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsGroupIdLockPutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdLockPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsGroupIdLockPut.');
         }
@@ -492,14 +492,14 @@ export class GroupManagementApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Set if non-admins are allowed to change the group dp and other stuff
      * Set group locked.
      */
-    async instancesInstanceKeyGroupsGroupIdLockPut(requestParameters: InstancesInstanceKeyGroupsGroupIdLockPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsGroupIdLockPut(requestParameters: InstancesInstanceKeyGroupsGroupIdLockPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsGroupIdLockPutRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -508,7 +508,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Changes the group name. The max limit is 22 chars
      * Set group name.
      */
-    async instancesInstanceKeyGroupsGroupIdNamePutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdNamePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsGroupIdNamePutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdNamePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsGroupIdNamePut.');
         }
@@ -536,17 +536,17 @@ export class GroupManagementApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsGroupUpdateNamePayloadToJSON(requestParameters.data),
+            body: GroupUpdateNamePayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Changes the group name. The max limit is 22 chars
      * Set group name.
      */
-    async instancesInstanceKeyGroupsGroupIdNamePut(requestParameters: InstancesInstanceKeyGroupsGroupIdNamePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsGroupIdNamePut(requestParameters: InstancesInstanceKeyGroupsGroupIdNamePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsGroupIdNamePutRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -555,7 +555,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Handles adding participants to a group. You must be admin in the group or the query will fail.
      * Add participant.
      */
-    async instancesInstanceKeyGroupsGroupIdParticipantsAddPostRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsAddPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsGroupIdParticipantsAddPostRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsAddPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsGroupIdParticipantsAddPost.');
         }
@@ -583,17 +583,17 @@ export class GroupManagementApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsGroupUpdateParticipantsPayloadToJSON(requestParameters.data),
+            body: GroupUpdateParticipantsPayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Handles adding participants to a group. You must be admin in the group or the query will fail.
      * Add participant.
      */
-    async instancesInstanceKeyGroupsGroupIdParticipantsAddPost(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsAddPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsGroupIdParticipantsAddPost(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsAddPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsGroupIdParticipantsAddPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -602,7 +602,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Demotes admins in groups. You must be admin in the group or the query will fail.
      * Demote participant.
      */
-    async instancesInstanceKeyGroupsGroupIdParticipantsDemotePutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsDemotePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsGroupIdParticipantsDemotePutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsDemotePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsGroupIdParticipantsDemotePut.');
         }
@@ -630,17 +630,17 @@ export class GroupManagementApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsGroupUpdateParticipantsPayloadToJSON(requestParameters.data),
+            body: GroupUpdateParticipantsPayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Demotes admins in groups. You must be admin in the group or the query will fail.
      * Demote participant.
      */
-    async instancesInstanceKeyGroupsGroupIdParticipantsDemotePut(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsDemotePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsGroupIdParticipantsDemotePut(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsDemotePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsGroupIdParticipantsDemotePutRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -649,7 +649,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Promotes participants to admin. You must be admin in the group or the query will fail.
      * Promote participant.
      */
-    async instancesInstanceKeyGroupsGroupIdParticipantsPromotePutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsPromotePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsGroupIdParticipantsPromotePutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsPromotePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsGroupIdParticipantsPromotePut.');
         }
@@ -677,17 +677,17 @@ export class GroupManagementApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsGroupUpdateParticipantsPayloadToJSON(requestParameters.data),
+            body: GroupUpdateParticipantsPayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Promotes participants to admin. You must be admin in the group or the query will fail.
      * Promote participant.
      */
-    async instancesInstanceKeyGroupsGroupIdParticipantsPromotePut(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsPromotePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsGroupIdParticipantsPromotePut(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsPromotePutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsGroupIdParticipantsPromotePutRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -696,7 +696,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Handles removing participants from a group. You must be admin in the group or the query will fail.
      * Remove participant.
      */
-    async instancesInstanceKeyGroupsGroupIdParticipantsRemoveDeleteRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsRemoveDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsGroupIdParticipantsRemoveDeleteRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsRemoveDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsGroupIdParticipantsRemoveDelete.');
         }
@@ -724,17 +724,17 @@ export class GroupManagementApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsGroupUpdateParticipantsPayloadToJSON(requestParameters.data),
+            body: GroupUpdateParticipantsPayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Handles removing participants from a group. You must be admin in the group or the query will fail.
      * Remove participant.
      */
-    async instancesInstanceKeyGroupsGroupIdParticipantsRemoveDelete(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsRemoveDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsGroupIdParticipantsRemoveDelete(requestParameters: InstancesInstanceKeyGroupsGroupIdParticipantsRemoveDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsGroupIdParticipantsRemoveDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -743,7 +743,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Changes the group profile picture. Currently it only seems to accept JPEG images only
      * Set group picture.
      */
-    async instancesInstanceKeyGroupsGroupIdProfilePicPutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdProfilePicPutOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsGroupIdProfilePicPutRaw(requestParameters: InstancesInstanceKeyGroupsGroupIdProfilePicPutOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsGroupIdProfilePicPut.');
         }
@@ -774,14 +774,14 @@ export class GroupManagementApi extends runtime.BaseAPI {
             body: InstancesInstanceKeyGroupsGroupIdProfilePicPutRequestToJSON(requestParameters.instancesInstanceKeyGroupsGroupIdProfilePicPutRequest),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Changes the group profile picture. Currently it only seems to accept JPEG images only
      * Set group picture.
      */
-    async instancesInstanceKeyGroupsGroupIdProfilePicPut(requestParameters: InstancesInstanceKeyGroupsGroupIdProfilePicPutOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsGroupIdProfilePicPut(requestParameters: InstancesInstanceKeyGroupsGroupIdProfilePicPutOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsGroupIdProfilePicPutRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -790,7 +790,7 @@ export class GroupManagementApi extends runtime.BaseAPI {
      * Gets a group info from an invite link. An invite link is a link that can be used to join a group. It is usually in the format https://chat.whatsapp.com/{invitecode}
      * Get group from invite link.
      */
-    async instancesInstanceKeyGroupsInviteInfoGetRaw(requestParameters: InstancesInstanceKeyGroupsInviteInfoGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGroupsInviteInfoGetRaw(requestParameters: InstancesInstanceKeyGroupsInviteInfoGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGroupsInviteInfoGet.');
         }
@@ -818,14 +818,14 @@ export class GroupManagementApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Gets a group info from an invite link. An invite link is a link that can be used to join a group. It is usually in the format https://chat.whatsapp.com/{invitecode}
      * Get group from invite link.
      */
-    async instancesInstanceKeyGroupsInviteInfoGet(requestParameters: InstancesInstanceKeyGroupsInviteInfoGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGroupsInviteInfoGet(requestParameters: InstancesInstanceKeyGroupsInviteInfoGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGroupsInviteInfoGetRaw(requestParameters, initOverrides);
         return await response.value();
     }

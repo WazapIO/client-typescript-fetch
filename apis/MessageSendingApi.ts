@@ -15,24 +15,32 @@
 
 import * as runtime from '../runtime';
 import type {
+  APIResponse,
+  ButtonMessagePayload,
+  ButtonMessageWithMediaPayload,
+  ContactMessagePayload,
   InstancesInstanceKeySendAudioPostRequest,
   InstancesInstanceKeySendDocumentPostRequest,
   InstancesInstanceKeySendImagePostRequest,
   InstancesInstanceKeySendUploadPostRequest,
   InstancesInstanceKeySendVideoPostRequest,
-  MainAPIResponse,
-  StructsButtonMessagePayload,
-  StructsButtonMessageWithMediaPayload,
-  StructsContactMessagePayload,
-  StructsListMessagePayload,
-  StructsLocationMessagePayload,
-  StructsPollMessagePayload,
-  StructsSendMediaPayload,
-  StructsTemplateButtonPayload,
-  StructsTemplateButtonWithMediaPayload,
-  StructsTextMessage,
+  ListMessagePayload,
+  LocationMessagePayload,
+  PollMessagePayload,
+  SendMediaPayload,
+  TemplateButtonPayload,
+  TemplateButtonWithMediaPayload,
+  TextMessage,
 } from '../models';
 import {
+    APIResponseFromJSON,
+    APIResponseToJSON,
+    ButtonMessagePayloadFromJSON,
+    ButtonMessagePayloadToJSON,
+    ButtonMessageWithMediaPayloadFromJSON,
+    ButtonMessageWithMediaPayloadToJSON,
+    ContactMessagePayloadFromJSON,
+    ContactMessagePayloadToJSON,
     InstancesInstanceKeySendAudioPostRequestFromJSON,
     InstancesInstanceKeySendAudioPostRequestToJSON,
     InstancesInstanceKeySendDocumentPostRequestFromJSON,
@@ -43,33 +51,21 @@ import {
     InstancesInstanceKeySendUploadPostRequestToJSON,
     InstancesInstanceKeySendVideoPostRequestFromJSON,
     InstancesInstanceKeySendVideoPostRequestToJSON,
-    MainAPIResponseFromJSON,
-    MainAPIResponseToJSON,
-    StructsButtonMessagePayloadFromJSON,
-    StructsButtonMessagePayloadToJSON,
-    StructsButtonMessageWithMediaPayloadFromJSON,
-    StructsButtonMessageWithMediaPayloadToJSON,
-    StructsContactMessagePayloadFromJSON,
-    StructsContactMessagePayloadToJSON,
-    StructsListMessagePayloadFromJSON,
-    StructsListMessagePayloadToJSON,
-    StructsLocationMessagePayloadFromJSON,
-    StructsLocationMessagePayloadToJSON,
-    StructsPollMessagePayloadFromJSON,
-    StructsPollMessagePayloadToJSON,
-    StructsSendMediaPayloadFromJSON,
-    StructsSendMediaPayloadToJSON,
-    StructsTemplateButtonPayloadFromJSON,
-    StructsTemplateButtonPayloadToJSON,
-    StructsTemplateButtonWithMediaPayloadFromJSON,
-    StructsTemplateButtonWithMediaPayloadToJSON,
-    StructsTextMessageFromJSON,
-    StructsTextMessageToJSON,
+    ListMessagePayloadFromJSON,
+    ListMessagePayloadToJSON,
+    LocationMessagePayloadFromJSON,
+    LocationMessagePayloadToJSON,
+    PollMessagePayloadFromJSON,
+    PollMessagePayloadToJSON,
+    SendMediaPayloadFromJSON,
+    SendMediaPayloadToJSON,
+    TemplateButtonPayloadFromJSON,
+    TemplateButtonPayloadToJSON,
+    TemplateButtonWithMediaPayloadFromJSON,
+    TemplateButtonWithMediaPayloadToJSON,
+    TextMessageFromJSON,
+    TextMessageToJSON,
 } from '../models';
-
-export interface InstancesInstanceKeyBusinessCatalogGetRequest {
-    instanceKey: string;
-}
 
 export interface InstancesInstanceKeySendAudioPostOperationRequest {
     instanceKey: string;
@@ -80,17 +76,17 @@ export interface InstancesInstanceKeySendAudioPostOperationRequest {
 
 export interface InstancesInstanceKeySendButtonMediaPostRequest {
     instanceKey: string;
-    data: StructsButtonMessageWithMediaPayload;
+    data: ButtonMessageWithMediaPayload;
 }
 
 export interface InstancesInstanceKeySendButtonsPostRequest {
     instanceKey: string;
-    data: StructsButtonMessagePayload;
+    data: ButtonMessagePayload;
 }
 
 export interface InstancesInstanceKeySendContactPostRequest {
     instanceKey: string;
-    data: StructsContactMessagePayload;
+    data: ContactMessagePayload;
 }
 
 export interface InstancesInstanceKeySendDocumentPostOperationRequest {
@@ -109,37 +105,37 @@ export interface InstancesInstanceKeySendImagePostOperationRequest {
 
 export interface InstancesInstanceKeySendListPostRequest {
     instanceKey: string;
-    data: StructsListMessagePayload;
+    data: ListMessagePayload;
 }
 
 export interface InstancesInstanceKeySendLocationPostRequest {
     instanceKey: string;
-    data: StructsLocationMessagePayload;
+    data: LocationMessagePayload;
 }
 
 export interface InstancesInstanceKeySendMediaPostRequest {
     instanceKey: string;
-    data: StructsSendMediaPayload;
+    data: SendMediaPayload;
 }
 
 export interface InstancesInstanceKeySendPollPostRequest {
     instanceKey: string;
-    data: StructsPollMessagePayload;
+    data: PollMessagePayload;
 }
 
 export interface InstancesInstanceKeySendTemplateMediaPostRequest {
     instanceKey: string;
-    data: StructsTemplateButtonWithMediaPayload;
+    data: TemplateButtonWithMediaPayload;
 }
 
 export interface InstancesInstanceKeySendTemplatePostRequest {
     instanceKey: string;
-    data: StructsTemplateButtonPayload;
+    data: TemplateButtonPayload;
 }
 
 export interface InstancesInstanceKeySendTextPostRequest {
     instanceKey: string;
-    data: StructsTextMessage;
+    data: TextMessage;
 }
 
 export interface InstancesInstanceKeySendUploadPostOperationRequest {
@@ -161,46 +157,10 @@ export interface InstancesInstanceKeySendVideoPostOperationRequest {
 export class MessageSendingApi extends runtime.BaseAPI {
 
     /**
-     * Gets list of all products registered by you.
-     * Fetches the catlog.
-     */
-    async instancesInstanceKeyBusinessCatalogGetRaw(requestParameters: InstancesInstanceKeyBusinessCatalogGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
-        if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
-            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyBusinessCatalogGet.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
-        }
-
-        const response = await this.request({
-            path: `/instances/{instance_key}/business/catalog`.replace(`{${"instance_key"}}`, encodeURIComponent(String(requestParameters.instanceKey))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Gets list of all products registered by you.
-     * Fetches the catlog.
-     */
-    async instancesInstanceKeyBusinessCatalogGet(requestParameters: InstancesInstanceKeyBusinessCatalogGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
-        const response = await this.instancesInstanceKeyBusinessCatalogGetRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * Sends a audio message by uploading to the WhatsApp servers every time. This is not recommended for bulk sending.
      * Send raw audio.
      */
-    async instancesInstanceKeySendAudioPostRaw(requestParameters: InstancesInstanceKeySendAudioPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendAudioPostRaw(requestParameters: InstancesInstanceKeySendAudioPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendAudioPost.');
         }
@@ -239,14 +199,14 @@ export class MessageSendingApi extends runtime.BaseAPI {
             body: InstancesInstanceKeySendAudioPostRequestToJSON(requestParameters.instancesInstanceKeySendAudioPostRequest),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Sends a audio message by uploading to the WhatsApp servers every time. This is not recommended for bulk sending.
      * Send raw audio.
      */
-    async instancesInstanceKeySendAudioPost(requestParameters: InstancesInstanceKeySendAudioPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendAudioPost(requestParameters: InstancesInstanceKeySendAudioPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendAudioPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -255,7 +215,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Sends an interactive button message to the given user. This message also has media header with it. Make sure that all the button ids are unique
      * Send a button message with a media header.
      */
-    async instancesInstanceKeySendButtonMediaPostRaw(requestParameters: InstancesInstanceKeySendButtonMediaPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendButtonMediaPostRaw(requestParameters: InstancesInstanceKeySendButtonMediaPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendButtonMediaPost.');
         }
@@ -279,17 +239,17 @@ export class MessageSendingApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsButtonMessageWithMediaPayloadToJSON(requestParameters.data),
+            body: ButtonMessageWithMediaPayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Sends an interactive button message to the given user. This message also has media header with it. Make sure that all the button ids are unique
      * Send a button message with a media header.
      */
-    async instancesInstanceKeySendButtonMediaPost(requestParameters: InstancesInstanceKeySendButtonMediaPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendButtonMediaPost(requestParameters: InstancesInstanceKeySendButtonMediaPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendButtonMediaPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -298,7 +258,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Sends an interactive button message to the given user. Make sure that all the button ids are unique
      * Send a button message.
      */
-    async instancesInstanceKeySendButtonsPostRaw(requestParameters: InstancesInstanceKeySendButtonsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendButtonsPostRaw(requestParameters: InstancesInstanceKeySendButtonsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendButtonsPost.');
         }
@@ -322,17 +282,17 @@ export class MessageSendingApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsButtonMessagePayloadToJSON(requestParameters.data),
+            body: ButtonMessagePayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Sends an interactive button message to the given user. Make sure that all the button ids are unique
      * Send a button message.
      */
-    async instancesInstanceKeySendButtonsPost(requestParameters: InstancesInstanceKeySendButtonsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendButtonsPost(requestParameters: InstancesInstanceKeySendButtonsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendButtonsPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -341,7 +301,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Sends a contact (vcard) message to the given user.
      * Send a contact message.
      */
-    async instancesInstanceKeySendContactPostRaw(requestParameters: InstancesInstanceKeySendContactPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendContactPostRaw(requestParameters: InstancesInstanceKeySendContactPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendContactPost.');
         }
@@ -365,17 +325,17 @@ export class MessageSendingApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsContactMessagePayloadToJSON(requestParameters.data),
+            body: ContactMessagePayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Sends a contact (vcard) message to the given user.
      * Send a contact message.
      */
-    async instancesInstanceKeySendContactPost(requestParameters: InstancesInstanceKeySendContactPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendContactPost(requestParameters: InstancesInstanceKeySendContactPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendContactPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -384,7 +344,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Sends a document message by uploading to the WhatsApp servers every time. This is not recommended for bulk sending.
      * Send raw document.
      */
-    async instancesInstanceKeySendDocumentPostRaw(requestParameters: InstancesInstanceKeySendDocumentPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendDocumentPostRaw(requestParameters: InstancesInstanceKeySendDocumentPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendDocumentPost.');
         }
@@ -423,14 +383,14 @@ export class MessageSendingApi extends runtime.BaseAPI {
             body: InstancesInstanceKeySendDocumentPostRequestToJSON(requestParameters.instancesInstanceKeySendDocumentPostRequest),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Sends a document message by uploading to the WhatsApp servers every time. This is not recommended for bulk sending.
      * Send raw document.
      */
-    async instancesInstanceKeySendDocumentPost(requestParameters: InstancesInstanceKeySendDocumentPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendDocumentPost(requestParameters: InstancesInstanceKeySendDocumentPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendDocumentPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -439,7 +399,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Sends a image message by uploading to the WhatsApp servers every time. This is not recommended for bulk sending.
      * Send raw image.
      */
-    async instancesInstanceKeySendImagePostRaw(requestParameters: InstancesInstanceKeySendImagePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendImagePostRaw(requestParameters: InstancesInstanceKeySendImagePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendImagePost.');
         }
@@ -478,14 +438,14 @@ export class MessageSendingApi extends runtime.BaseAPI {
             body: InstancesInstanceKeySendImagePostRequestToJSON(requestParameters.instancesInstanceKeySendImagePostRequest),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Sends a image message by uploading to the WhatsApp servers every time. This is not recommended for bulk sending.
      * Send raw image.
      */
-    async instancesInstanceKeySendImagePost(requestParameters: InstancesInstanceKeySendImagePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendImagePost(requestParameters: InstancesInstanceKeySendImagePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendImagePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -494,7 +454,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Sends an interactive List message to the given user.
      * Send a List message.
      */
-    async instancesInstanceKeySendListPostRaw(requestParameters: InstancesInstanceKeySendListPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendListPostRaw(requestParameters: InstancesInstanceKeySendListPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendListPost.');
         }
@@ -518,17 +478,17 @@ export class MessageSendingApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsListMessagePayloadToJSON(requestParameters.data),
+            body: ListMessagePayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Sends an interactive List message to the given user.
      * Send a List message.
      */
-    async instancesInstanceKeySendListPost(requestParameters: InstancesInstanceKeySendListPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendListPost(requestParameters: InstancesInstanceKeySendListPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendListPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -537,7 +497,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Sends a location message to the given user. This is static location and does not update Note: The Address and Url fields are optional
      * Send a location message.
      */
-    async instancesInstanceKeySendLocationPostRaw(requestParameters: InstancesInstanceKeySendLocationPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendLocationPostRaw(requestParameters: InstancesInstanceKeySendLocationPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendLocationPost.');
         }
@@ -561,17 +521,17 @@ export class MessageSendingApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsLocationMessagePayloadToJSON(requestParameters.data),
+            body: LocationMessagePayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Sends a location message to the given user. This is static location and does not update Note: The Address and Url fields are optional
      * Send a location message.
      */
-    async instancesInstanceKeySendLocationPost(requestParameters: InstancesInstanceKeySendLocationPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendLocationPost(requestParameters: InstancesInstanceKeySendLocationPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendLocationPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -580,7 +540,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Sends a media message to the given user.
      * Send a media message.
      */
-    async instancesInstanceKeySendMediaPostRaw(requestParameters: InstancesInstanceKeySendMediaPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendMediaPostRaw(requestParameters: InstancesInstanceKeySendMediaPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendMediaPost.');
         }
@@ -604,26 +564,26 @@ export class MessageSendingApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsSendMediaPayloadToJSON(requestParameters.data),
+            body: SendMediaPayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Sends a media message to the given user.
      * Send a media message.
      */
-    async instancesInstanceKeySendMediaPost(requestParameters: InstancesInstanceKeySendMediaPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendMediaPost(requestParameters: InstancesInstanceKeySendMediaPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendMediaPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Sends an interactive poll message with a media header to the given user. The poll message is a new feature that is currently in beta.
-     * Send a Poll message with media.
+     * Sends an interactive poll message to the given user. The poll message is a new feature that is currently in beta.
+     * Send a Poll message.
      */
-    async instancesInstanceKeySendPollPostRaw(requestParameters: InstancesInstanceKeySendPollPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendPollPostRaw(requestParameters: InstancesInstanceKeySendPollPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendPollPost.');
         }
@@ -647,17 +607,17 @@ export class MessageSendingApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsPollMessagePayloadToJSON(requestParameters.data),
+            body: PollMessagePayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
-     * Sends an interactive poll message with a media header to the given user. The poll message is a new feature that is currently in beta.
-     * Send a Poll message with media.
+     * Sends an interactive poll message to the given user. The poll message is a new feature that is currently in beta.
+     * Send a Poll message.
      */
-    async instancesInstanceKeySendPollPost(requestParameters: InstancesInstanceKeySendPollPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendPollPost(requestParameters: InstancesInstanceKeySendPollPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendPollPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -666,7 +626,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Sends an interactive template message with a media header to the given user. Note: The valid button types are \"replyButton\", \"urlButton\", \"callButton\"
      * Send a template message with media.
      */
-    async instancesInstanceKeySendTemplateMediaPostRaw(requestParameters: InstancesInstanceKeySendTemplateMediaPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendTemplateMediaPostRaw(requestParameters: InstancesInstanceKeySendTemplateMediaPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendTemplateMediaPost.');
         }
@@ -690,17 +650,17 @@ export class MessageSendingApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsTemplateButtonWithMediaPayloadToJSON(requestParameters.data),
+            body: TemplateButtonWithMediaPayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Sends an interactive template message with a media header to the given user. Note: The valid button types are \"replyButton\", \"urlButton\", \"callButton\"
      * Send a template message with media.
      */
-    async instancesInstanceKeySendTemplateMediaPost(requestParameters: InstancesInstanceKeySendTemplateMediaPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendTemplateMediaPost(requestParameters: InstancesInstanceKeySendTemplateMediaPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendTemplateMediaPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -709,7 +669,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Sends an interactive template message to the given user. Note: The valid button types are \"replyButton\", \"urlButton\", \"callButton\"
      * Send a template message.
      */
-    async instancesInstanceKeySendTemplatePostRaw(requestParameters: InstancesInstanceKeySendTemplatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendTemplatePostRaw(requestParameters: InstancesInstanceKeySendTemplatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendTemplatePost.');
         }
@@ -733,17 +693,17 @@ export class MessageSendingApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsTemplateButtonPayloadToJSON(requestParameters.data),
+            body: TemplateButtonPayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Sends an interactive template message to the given user. Note: The valid button types are \"replyButton\", \"urlButton\", \"callButton\"
      * Send a template message.
      */
-    async instancesInstanceKeySendTemplatePost(requestParameters: InstancesInstanceKeySendTemplatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendTemplatePost(requestParameters: InstancesInstanceKeySendTemplatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendTemplatePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -752,7 +712,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Sends a text message to the given user.
      * Send a text message.
      */
-    async instancesInstanceKeySendTextPostRaw(requestParameters: InstancesInstanceKeySendTextPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendTextPostRaw(requestParameters: InstancesInstanceKeySendTextPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendTextPost.');
         }
@@ -776,17 +736,17 @@ export class MessageSendingApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsTextMessageToJSON(requestParameters.data),
+            body: TextMessageToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Sends a text message to the given user.
      * Send a text message.
      */
-    async instancesInstanceKeySendTextPost(requestParameters: InstancesInstanceKeySendTextPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendTextPost(requestParameters: InstancesInstanceKeySendTextPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendTextPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -795,7 +755,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Uploads media to WhatsApp servers and returns the media keys. Store the returned media keys, as you will need them to send media messages
      * Upload media.
      */
-    async instancesInstanceKeySendUploadPostRaw(requestParameters: InstancesInstanceKeySendUploadPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendUploadPostRaw(requestParameters: InstancesInstanceKeySendUploadPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendUploadPost.');
         }
@@ -830,14 +790,14 @@ export class MessageSendingApi extends runtime.BaseAPI {
             body: InstancesInstanceKeySendUploadPostRequestToJSON(requestParameters.instancesInstanceKeySendUploadPostRequest),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Uploads media to WhatsApp servers and returns the media keys. Store the returned media keys, as you will need them to send media messages
      * Upload media.
      */
-    async instancesInstanceKeySendUploadPost(requestParameters: InstancesInstanceKeySendUploadPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendUploadPost(requestParameters: InstancesInstanceKeySendUploadPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendUploadPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -846,7 +806,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Sends a video message by uploading to the WhatsApp servers every time. This is not recommended for bulk sending.
      * Send raw video.
      */
-    async instancesInstanceKeySendVideoPostRaw(requestParameters: InstancesInstanceKeySendVideoPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeySendVideoPostRaw(requestParameters: InstancesInstanceKeySendVideoPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeySendVideoPost.');
         }
@@ -885,14 +845,14 @@ export class MessageSendingApi extends runtime.BaseAPI {
             body: InstancesInstanceKeySendVideoPostRequestToJSON(requestParameters.instancesInstanceKeySendVideoPostRequest),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Sends a video message by uploading to the WhatsApp servers every time. This is not recommended for bulk sending.
      * Send raw video.
      */
-    async instancesInstanceKeySendVideoPost(requestParameters: InstancesInstanceKeySendVideoPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeySendVideoPost(requestParameters: InstancesInstanceKeySendVideoPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeySendVideoPostRaw(requestParameters, initOverrides);
         return await response.value();
     }

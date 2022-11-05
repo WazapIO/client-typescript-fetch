@@ -15,14 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
-  MainAPIResponse,
-  StructsWebhookPayload,
+  APIResponse,
+  WebhookPayload,
 } from '../models';
 import {
-    MainAPIResponseFromJSON,
-    MainAPIResponseToJSON,
-    StructsWebhookPayloadFromJSON,
-    StructsWebhookPayloadToJSON,
+    APIResponseFromJSON,
+    APIResponseToJSON,
+    WebhookPayloadFromJSON,
+    WebhookPayloadToJSON,
 } from '../models';
 
 export interface InstancesCreateGetRequest {
@@ -51,7 +51,7 @@ export interface InstancesInstanceKeyQrcodeGetRequest {
 
 export interface InstancesInstanceKeyWebhookPutRequest {
     instanceKey: string;
-    data: StructsWebhookPayload;
+    data: WebhookPayload;
 }
 
 /**
@@ -63,7 +63,7 @@ export class InstanceApi extends runtime.BaseAPI {
      * This endpoint is used to create a new WhatsApp Web instance.
      * Creates a new instance key.
      */
-    async instancesCreateGetRaw(requestParameters: InstancesCreateGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesCreateGetRaw(requestParameters: InstancesCreateGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters.instanceKey !== undefined) {
@@ -83,14 +83,14 @@ export class InstanceApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * This endpoint is used to create a new WhatsApp Web instance.
      * Creates a new instance key.
      */
-    async instancesCreateGet(requestParameters: InstancesCreateGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesCreateGet(requestParameters: InstancesCreateGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesCreateGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -99,7 +99,7 @@ export class InstanceApi extends runtime.BaseAPI {
      * Fetches the list of contacts in the instance.
      * Get contacts.
      */
-    async instancesInstanceKeyContactsGetRaw(requestParameters: InstancesInstanceKeyContactsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyContactsGetRaw(requestParameters: InstancesInstanceKeyContactsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyContactsGet.');
         }
@@ -119,14 +119,14 @@ export class InstanceApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Fetches the list of contacts in the instance.
      * Get contacts.
      */
-    async instancesInstanceKeyContactsGet(requestParameters: InstancesInstanceKeyContactsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyContactsGet(requestParameters: InstancesInstanceKeyContactsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyContactsGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -135,7 +135,7 @@ export class InstanceApi extends runtime.BaseAPI {
      * Deletes the instance with the provided key.
      * Delete Instance.
      */
-    async instancesInstanceKeyDeleteDeleteRaw(requestParameters: InstancesInstanceKeyDeleteDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyDeleteDeleteRaw(requestParameters: InstancesInstanceKeyDeleteDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyDeleteDelete.');
         }
@@ -155,14 +155,14 @@ export class InstanceApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Deletes the instance with the provided key.
      * Delete Instance.
      */
-    async instancesInstanceKeyDeleteDelete(requestParameters: InstancesInstanceKeyDeleteDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyDeleteDelete(requestParameters: InstancesInstanceKeyDeleteDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyDeleteDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -171,7 +171,7 @@ export class InstanceApi extends runtime.BaseAPI {
      * Returns the instance data of single instance with connection status.
      * Get Instance.
      */
-    async instancesInstanceKeyGetRaw(requestParameters: InstancesInstanceKeyGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyGetRaw(requestParameters: InstancesInstanceKeyGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyGet.');
         }
@@ -191,14 +191,14 @@ export class InstanceApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Returns the instance data of single instance with connection status.
      * Get Instance.
      */
-    async instancesInstanceKeyGet(requestParameters: InstancesInstanceKeyGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyGet(requestParameters: InstancesInstanceKeyGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -207,7 +207,7 @@ export class InstanceApi extends runtime.BaseAPI {
      * Logouts of the instance with the provided key.
      * Logout Instance.
      */
-    async instancesInstanceKeyLogoutDeleteRaw(requestParameters: InstancesInstanceKeyLogoutDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyLogoutDeleteRaw(requestParameters: InstancesInstanceKeyLogoutDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyLogoutDelete.');
         }
@@ -227,14 +227,14 @@ export class InstanceApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Logouts of the instance with the provided key.
      * Logout Instance.
      */
-    async instancesInstanceKeyLogoutDelete(requestParameters: InstancesInstanceKeyLogoutDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyLogoutDelete(requestParameters: InstancesInstanceKeyLogoutDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyLogoutDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -243,7 +243,7 @@ export class InstanceApi extends runtime.BaseAPI {
      * Returns the qrcode in the base64 format.
      * Get QrCode.
      */
-    async instancesInstanceKeyQrcodeGetRaw(requestParameters: InstancesInstanceKeyQrcodeGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyQrcodeGetRaw(requestParameters: InstancesInstanceKeyQrcodeGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyQrcodeGet.');
         }
@@ -263,14 +263,14 @@ export class InstanceApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Returns the qrcode in the base64 format.
      * Get QrCode.
      */
-    async instancesInstanceKeyQrcodeGet(requestParameters: InstancesInstanceKeyQrcodeGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyQrcodeGet(requestParameters: InstancesInstanceKeyQrcodeGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyQrcodeGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -279,7 +279,7 @@ export class InstanceApi extends runtime.BaseAPI {
      * Changes the webhook url of an instance.
      * Change Webhook url.
      */
-    async instancesInstanceKeyWebhookPutRaw(requestParameters: InstancesInstanceKeyWebhookPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesInstanceKeyWebhookPutRaw(requestParameters: InstancesInstanceKeyWebhookPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling instancesInstanceKeyWebhookPut.');
         }
@@ -303,17 +303,17 @@ export class InstanceApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: StructsWebhookPayloadToJSON(requestParameters.data),
+            body: WebhookPayloadToJSON(requestParameters.data),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Changes the webhook url of an instance.
      * Change Webhook url.
      */
-    async instancesInstanceKeyWebhookPut(requestParameters: InstancesInstanceKeyWebhookPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesInstanceKeyWebhookPut(requestParameters: InstancesInstanceKeyWebhookPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesInstanceKeyWebhookPutRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -322,7 +322,7 @@ export class InstanceApi extends runtime.BaseAPI {
      * Fetches the list of all Instances with login status.
      * Get all instances.
      */
-    async instancesListGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MainAPIResponse>> {
+    async instancesListGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -338,14 +338,14 @@ export class InstanceApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MainAPIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
     }
 
     /**
      * Fetches the list of all Instances with login status.
      * Get all instances.
      */
-    async instancesListGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MainAPIResponse> {
+    async instancesListGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.instancesListGetRaw(initOverrides);
         return await response.value();
     }
