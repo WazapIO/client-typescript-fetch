@@ -12,6 +12,7 @@ models/ContactMessagePayload.ts
 models/ContactMessagePayloadVcard.ts
 models/FileUpload.ts
 models/GroupCreatePayload.ts
+models/GroupInviteMessagePayload.ts
 models/GroupUpdateDescriptionPayload.ts
 models/GroupUpdateNamePayload.ts
 models/GroupUpdateParticipantsPayload.ts
@@ -20,11 +21,11 @@ models/ListMessagePayload.ts
 models/ListSection.ts
 models/LocationMessagePayload.ts
 models/LocationMessagePayloadLocation.ts
+models/PaymentRequestPayload.ts
 models/PollMessagePayload.ts
 models/ReplyButton.ts
 models/SendAudioRequest.ts
 models/SendDocumentRequest.ts
-models/SendImageRequest.ts
 models/SendMediaPayload.ts
 models/SendVideoRequest.ts
 models/SetGroupPictureRequest.ts
@@ -32,6 +33,7 @@ models/TemplateButton.ts
 models/TemplateButtonPayload.ts
 models/TemplateButtonWithMediaPayload.ts
 models/TextMessage.ts
+models/UpdateProfilePicRequest.ts
 models/UploadMediaRequest.ts
 models/UserInfoPayload.ts
 models/WebhookPayload.ts

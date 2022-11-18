@@ -16,14 +16,27 @@
 import * as runtime from '../runtime';
 import type {
   APIResponse,
+  FileUpload,
+  UpdateProfilePicRequest,
   UserInfoPayload,
 } from '../models';
 import {
     APIResponseFromJSON,
     APIResponseToJSON,
+    FileUploadFromJSON,
+    FileUploadToJSON,
+    UpdateProfilePicRequestFromJSON,
+    UpdateProfilePicRequestToJSON,
     UserInfoPayloadFromJSON,
     UserInfoPayloadToJSON,
 } from '../models';
+
+export interface DownloadMediaRequest {
+    instanceKey: string;
+    fileType: DownloadMediaFileTypeEnum;
+    data: FileUpload;
+    responseType?: string;
+}
 
 export interface GetProfilePicRequest {
     instanceKey: string;
@@ -35,10 +48,76 @@ export interface GetUsersInfoRequest {
     data: UserInfoPayload;
 }
 
+export interface SetChatPresenceRequest {
+    instanceKey: string;
+    jid: string;
+    presence: string;
+}
+
+export interface UpdateProfilePicOperationRequest {
+    instanceKey: string;
+    updateProfilePicRequest: UpdateProfilePicRequest;
+}
+
 /**
  * 
  */
 export class MiscellaneousApi extends runtime.BaseAPI {
+
+    /**
+     * Downloads the media from the given media keys.
+     * Download media
+     */
+    async downloadMediaRaw(requestParameters: DownloadMediaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
+        if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
+            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling downloadMedia.');
+        }
+
+        if (requestParameters.fileType === null || requestParameters.fileType === undefined) {
+            throw new runtime.RequiredError('fileType','Required parameter requestParameters.fileType was null or undefined when calling downloadMedia.');
+        }
+
+        if (requestParameters.data === null || requestParameters.data === undefined) {
+            throw new runtime.RequiredError('data','Required parameter requestParameters.data was null or undefined when calling downloadMedia.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.fileType !== undefined) {
+            queryParameters['file_type'] = requestParameters.fileType;
+        }
+
+        if (requestParameters.responseType !== undefined) {
+            queryParameters['response_type'] = requestParameters.responseType;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
+        }
+
+        const response = await this.request({
+            path: `/instances/{instance_key}/misc/download`.replace(`{${"instance_key"}}`, encodeURIComponent(String(requestParameters.instanceKey))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: FileUploadToJSON(requestParameters.data),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Downloads the media from the given media keys.
+     * Download media
+     */
+    async downloadMedia(requestParameters: DownloadMediaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
+        const response = await this.downloadMediaRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Returns the profile pic of the given user.
@@ -127,4 +206,110 @@ export class MiscellaneousApi extends runtime.BaseAPI {
         return await response.value();
     }
 
+    /**
+     * Sets the presence of the given chat. (Typing, Recording, Paused) Options: typing, recording, paused
+     * Set chat presence
+     */
+    async setChatPresenceRaw(requestParameters: SetChatPresenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
+        if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
+            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling setChatPresence.');
+        }
+
+        if (requestParameters.jid === null || requestParameters.jid === undefined) {
+            throw new runtime.RequiredError('jid','Required parameter requestParameters.jid was null or undefined when calling setChatPresence.');
+        }
+
+        if (requestParameters.presence === null || requestParameters.presence === undefined) {
+            throw new runtime.RequiredError('presence','Required parameter requestParameters.presence was null or undefined when calling setChatPresence.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.jid !== undefined) {
+            queryParameters['jid'] = requestParameters.jid;
+        }
+
+        if (requestParameters.presence !== undefined) {
+            queryParameters['presence'] = requestParameters.presence;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
+        }
+
+        const response = await this.request({
+            path: `/instances/{instance_key}/misc/chat-presence`.replace(`{${"instance_key"}}`, encodeURIComponent(String(requestParameters.instanceKey))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Sets the presence of the given chat. (Typing, Recording, Paused) Options: typing, recording, paused
+     * Set chat presence
+     */
+    async setChatPresence(requestParameters: SetChatPresenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
+        const response = await this.setChatPresenceRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Changes the profile pic of the current logged in user.
+     * Update profile picture
+     */
+    async updateProfilePicRaw(requestParameters: UpdateProfilePicOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
+        if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
+            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling updateProfilePic.');
+        }
+
+        if (requestParameters.updateProfilePicRequest === null || requestParameters.updateProfilePicRequest === undefined) {
+            throw new runtime.RequiredError('updateProfilePicRequest','Required parameter requestParameters.updateProfilePicRequest was null or undefined when calling updateProfilePic.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
+        }
+
+        const response = await this.request({
+            path: `/instances/{instance_key}/misc/profile-pic`.replace(`{${"instance_key"}}`, encodeURIComponent(String(requestParameters.instanceKey))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpdateProfilePicRequestToJSON(requestParameters.updateProfilePicRequest),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Changes the profile pic of the current logged in user.
+     * Update profile picture
+     */
+    async updateProfilePic(requestParameters: UpdateProfilePicOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
+        const response = await this.updateProfilePicRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
 }
+
+/**
+ * @export
+ */
+export const DownloadMediaFileTypeEnum = {
+    Image: 'image',
+    Video: 'video',
+    Audio: 'audio',
+    Document: 'document'
+} as const;
+export type DownloadMediaFileTypeEnum = typeof DownloadMediaFileTypeEnum[keyof typeof DownloadMediaFileTypeEnum];

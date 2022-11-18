@@ -19,17 +19,18 @@ import type {
   ButtonMessagePayload,
   ButtonMessageWithMediaPayload,
   ContactMessagePayload,
+  GroupInviteMessagePayload,
   ListMessagePayload,
   LocationMessagePayload,
   PollMessagePayload,
   SendAudioRequest,
   SendDocumentRequest,
-  SendImageRequest,
   SendMediaPayload,
   SendVideoRequest,
   TemplateButtonPayload,
   TemplateButtonWithMediaPayload,
   TextMessage,
+  UpdateProfilePicRequest,
   UploadMediaRequest,
 } from '../models';
 import {
@@ -41,6 +42,8 @@ import {
     ButtonMessageWithMediaPayloadToJSON,
     ContactMessagePayloadFromJSON,
     ContactMessagePayloadToJSON,
+    GroupInviteMessagePayloadFromJSON,
+    GroupInviteMessagePayloadToJSON,
     ListMessagePayloadFromJSON,
     ListMessagePayloadToJSON,
     LocationMessagePayloadFromJSON,
@@ -51,8 +54,6 @@ import {
     SendAudioRequestToJSON,
     SendDocumentRequestFromJSON,
     SendDocumentRequestToJSON,
-    SendImageRequestFromJSON,
-    SendImageRequestToJSON,
     SendMediaPayloadFromJSON,
     SendMediaPayloadToJSON,
     SendVideoRequestFromJSON,
@@ -63,6 +64,8 @@ import {
     TemplateButtonWithMediaPayloadToJSON,
     TextMessageFromJSON,
     TextMessageToJSON,
+    UpdateProfilePicRequestFromJSON,
+    UpdateProfilePicRequestToJSON,
     UploadMediaRequestFromJSON,
     UploadMediaRequestToJSON,
 } from '../models';
@@ -96,10 +99,15 @@ export interface SendDocumentOperationRequest {
     caption?: string;
 }
 
-export interface SendImageOperationRequest {
+export interface SendGroupInviteRequest {
+    instanceKey: string;
+    data: GroupInviteMessagePayload;
+}
+
+export interface SendImageRequest {
     instanceKey: string;
     to: string;
-    sendImageRequest: SendImageRequest;
+    updateProfilePicRequest: UpdateProfilePicRequest;
     caption?: string;
 }
 
@@ -396,10 +404,53 @@ export class MessageSendingApi extends runtime.BaseAPI {
     }
 
     /**
+     * Sends a group invite message to the specified number. Don\'t include \"https://chat.whatsapp.com/\" in the invite code.
+     * Send a group invite message
+     */
+    async sendGroupInviteRaw(requestParameters: SendGroupInviteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
+        if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
+            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling sendGroupInvite.');
+        }
+
+        if (requestParameters.data === null || requestParameters.data === undefined) {
+            throw new runtime.RequiredError('data','Required parameter requestParameters.data was null or undefined when calling sendGroupInvite.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
+        }
+
+        const response = await this.request({
+            path: `/instances/{instance_key}/send/group-invite`.replace(`{${"instance_key"}}`, encodeURIComponent(String(requestParameters.instanceKey))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: GroupInviteMessagePayloadToJSON(requestParameters.data),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Sends a group invite message to the specified number. Don\'t include \"https://chat.whatsapp.com/\" in the invite code.
+     * Send a group invite message
+     */
+    async sendGroupInvite(requestParameters: SendGroupInviteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
+        const response = await this.sendGroupInviteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Sends a image message by uploading to the WhatsApp servers every time. This is not recommended for bulk sending.
      * Send raw image.
      */
-    async sendImageRaw(requestParameters: SendImageOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
+    async sendImageRaw(requestParameters: SendImageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
         if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
             throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling sendImage.');
         }
@@ -408,8 +459,8 @@ export class MessageSendingApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('to','Required parameter requestParameters.to was null or undefined when calling sendImage.');
         }
 
-        if (requestParameters.sendImageRequest === null || requestParameters.sendImageRequest === undefined) {
-            throw new runtime.RequiredError('sendImageRequest','Required parameter requestParameters.sendImageRequest was null or undefined when calling sendImage.');
+        if (requestParameters.updateProfilePicRequest === null || requestParameters.updateProfilePicRequest === undefined) {
+            throw new runtime.RequiredError('updateProfilePicRequest','Required parameter requestParameters.updateProfilePicRequest was null or undefined when calling sendImage.');
         }
 
         const queryParameters: any = {};
@@ -435,7 +486,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SendImageRequestToJSON(requestParameters.sendImageRequest),
+            body: UpdateProfilePicRequestToJSON(requestParameters.updateProfilePicRequest),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
@@ -445,7 +496,7 @@ export class MessageSendingApi extends runtime.BaseAPI {
      * Sends a image message by uploading to the WhatsApp servers every time. This is not recommended for bulk sending.
      * Send raw image.
      */
-    async sendImage(requestParameters: SendImageOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
+    async sendImage(requestParameters: SendImageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.sendImageRaw(requestParameters, initOverrides);
         return await response.value();
     }

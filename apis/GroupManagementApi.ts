@@ -63,6 +63,11 @@ export interface GetAllGroupsRequest {
     includeParticipants?: GetAllGroupsIncludeParticipantsEnum;
 }
 
+export interface GetAllParticipantsRequest {
+    instanceKey: string;
+    groupId: string;
+}
+
 export interface GetGroupRequest {
     instanceKey: string;
     groupId: string;
@@ -76,6 +81,11 @@ export interface GetGroupFromInviteLinkRequest {
 export interface GetGroupInviteCodeRequest {
     instanceKey: string;
     groupId: string;
+}
+
+export interface JoinGroupWithLinkRequest {
+    instanceKey: string;
+    inviteCode: string;
 }
 
 export interface LeaveGroupRequest {
@@ -344,6 +354,46 @@ export class GroupManagementApi extends runtime.BaseAPI {
     }
 
     /**
+     * Returns all participants of the group.
+     * Get all participants.
+     */
+    async getAllParticipantsRaw(requestParameters: GetAllParticipantsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
+        if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
+            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling getAllParticipants.');
+        }
+
+        if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
+            throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling getAllParticipants.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
+        }
+
+        const response = await this.request({
+            path: `/instances/{instance_key}/groups/{group_id}/participants`.replace(`{${"instance_key"}}`, encodeURIComponent(String(requestParameters.instanceKey))).replace(`{${"group_id"}}`, encodeURIComponent(String(requestParameters.groupId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Returns all participants of the group.
+     * Get all participants.
+     */
+    async getAllParticipants(requestParameters: GetAllParticipantsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
+        const response = await this.getAllParticipantsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Fetches the group data.
      * Get group.
      */
@@ -464,6 +514,50 @@ export class GroupManagementApi extends runtime.BaseAPI {
      */
     async getGroupInviteCode(requestParameters: GetGroupInviteCodeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.getGroupInviteCodeRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Joins a group with group invite link. An invite link is a link that can be used to join a group. It is usually in the format https://chat.whatsapp.com/{invitecode} You have to put invite_code in the url of the request. The invite code is the part after https://chat.whatsapp.com/ For example, if the invite link is https://chat.whatsapp.com/dsfsf34r3d3dsds, then the invite code is `dsfsf34r3d3dsds“
+     * Join group with invite code.
+     */
+    async joinGroupWithLinkRaw(requestParameters: JoinGroupWithLinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
+        if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
+            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling joinGroupWithLink.');
+        }
+
+        if (requestParameters.inviteCode === null || requestParameters.inviteCode === undefined) {
+            throw new runtime.RequiredError('inviteCode','Required parameter requestParameters.inviteCode was null or undefined when calling joinGroupWithLink.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.inviteCode !== undefined) {
+            queryParameters['invite_code'] = requestParameters.inviteCode;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
+        }
+
+        const response = await this.request({
+            path: `/instances/{instance_key}/groups/join`.replace(`{${"instance_key"}}`, encodeURIComponent(String(requestParameters.instanceKey))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Joins a group with group invite link. An invite link is a link that can be used to join a group. It is usually in the format https://chat.whatsapp.com/{invitecode} You have to put invite_code in the url of the request. The invite code is the part after https://chat.whatsapp.com/ For example, if the invite link is https://chat.whatsapp.com/dsfsf34r3d3dsds, then the invite code is `dsfsf34r3d3dsds“
+     * Join group with invite code.
+     */
+    async joinGroupWithLink(requestParameters: JoinGroupWithLinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
+        const response = await this.joinGroupWithLinkRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -16,14 +16,22 @@
 import * as runtime from '../runtime';
 import type {
   APIResponse,
+  PaymentRequestPayload,
 } from '../models';
 import {
     APIResponseFromJSON,
     APIResponseToJSON,
+    PaymentRequestPayloadFromJSON,
+    PaymentRequestPayloadToJSON,
 } from '../models';
 
 export interface FetchCatlogRequest {
     instanceKey: string;
+}
+
+export interface SendPaymentRequestRequest {
+    instanceKey: string;
+    data: PaymentRequestPayload;
 }
 
 /**
@@ -64,6 +72,49 @@ export class BusinessManagementApi extends runtime.BaseAPI {
      */
     async fetchCatlog(requestParameters: FetchCatlogRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.fetchCatlogRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Sends an payment request to a user. Feature is still in beta.
+     * Send a payment request.
+     */
+    async sendPaymentRequestRaw(requestParameters: SendPaymentRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
+        if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
+            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling sendPaymentRequest.');
+        }
+
+        if (requestParameters.data === null || requestParameters.data === undefined) {
+            throw new runtime.RequiredError('data','Required parameter requestParameters.data was null or undefined when calling sendPaymentRequest.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
+        }
+
+        const response = await this.request({
+            path: `/instances/{instance_key}/business/payment-request`.replace(`{${"instance_key"}}`, encodeURIComponent(String(requestParameters.instanceKey))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PaymentRequestPayloadToJSON(requestParameters.data),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Sends an payment request to a user. Feature is still in beta.
+     * Send a payment request.
+     */
+    async sendPaymentRequest(requestParameters: SendPaymentRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
+        const response = await this.sendPaymentRequestRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
