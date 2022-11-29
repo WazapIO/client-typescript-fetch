@@ -32,6 +32,7 @@ import type {
   TextMessage,
   UpdateProfilePicRequest,
   UploadMediaRequest,
+  UrlMediaUploadPayload,
 } from '../models';
 import {
     APIResponseFromJSON,
@@ -68,6 +69,8 @@ import {
     UpdateProfilePicRequestToJSON,
     UploadMediaRequestFromJSON,
     UploadMediaRequestToJSON,
+    UrlMediaUploadPayloadFromJSON,
+    UrlMediaUploadPayloadToJSON,
 } from '../models';
 
 export interface SendAudioOperationRequest {
@@ -157,6 +160,12 @@ export interface UploadMediaOperationRequest {
     instanceKey: string;
     type: UploadMediaTypeEnum;
     uploadMediaRequest: UploadMediaRequest;
+}
+
+export interface UploadMediaFromUrlRequest {
+    instanceKey: string;
+    type: UploadMediaFromUrlTypeEnum;
+    data: UrlMediaUploadPayload;
 }
 
 /**
@@ -908,6 +917,57 @@ export class MessageSendingApi extends runtime.BaseAPI {
         return await response.value();
     }
 
+    /**
+     * Uploads media from a url to WhatsApp servers and returns the media keys. Store the returned media keys, as you will need them to send media messages
+     * Upload media from url.
+     */
+    async uploadMediaFromUrlRaw(requestParameters: UploadMediaFromUrlRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
+        if (requestParameters.instanceKey === null || requestParameters.instanceKey === undefined) {
+            throw new runtime.RequiredError('instanceKey','Required parameter requestParameters.instanceKey was null or undefined when calling uploadMediaFromUrl.');
+        }
+
+        if (requestParameters.type === null || requestParameters.type === undefined) {
+            throw new runtime.RequiredError('type','Required parameter requestParameters.type was null or undefined when calling uploadMediaFromUrl.');
+        }
+
+        if (requestParameters.data === null || requestParameters.data === undefined) {
+            throw new runtime.RequiredError('data','Required parameter requestParameters.data was null or undefined when calling uploadMediaFromUrl.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.type !== undefined) {
+            queryParameters['type'] = requestParameters.type;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
+        }
+
+        const response = await this.request({
+            path: `/instances/{instance_key}/send/upload-url`.replace(`{${"instance_key"}}`, encodeURIComponent(String(requestParameters.instanceKey))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UrlMediaUploadPayloadToJSON(requestParameters.data),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Uploads media from a url to WhatsApp servers and returns the media keys. Store the returned media keys, as you will need them to send media messages
+     * Upload media from url.
+     */
+    async uploadMediaFromUrl(requestParameters: UploadMediaFromUrlRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
+        const response = await this.uploadMediaFromUrlRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
 }
 
 /**
@@ -920,3 +980,13 @@ export const UploadMediaOperationTypeEnum = {
     Document: 'document'
 } as const;
 export type UploadMediaOperationTypeEnum = typeof UploadMediaOperationTypeEnum[keyof typeof UploadMediaOperationTypeEnum];
+/**
+ * @export
+ */
+export const UploadMediaFromUrlTypeEnum = {
+    Image: 'image',
+    Video: 'video',
+    Audio: 'audio',
+    Document: 'document'
+} as const;
+export type UploadMediaFromUrlTypeEnum = typeof UploadMediaFromUrlTypeEnum[keyof typeof UploadMediaFromUrlTypeEnum];

@@ -35,6 +35,7 @@ models/TemplateButtonWithMediaPayload.ts
 models/TextMessage.ts
 models/UpdateProfilePicRequest.ts
 models/UploadMediaRequest.ts
+models/UrlMediaUploadPayload.ts
 models/UserInfoPayload.ts
 models/WebhookPayload.ts
 models/index.ts
