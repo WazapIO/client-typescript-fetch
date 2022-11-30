@@ -5,6 +5,7 @@ export * from './ButtonMessagePayload';
 export * from './ButtonMessageWithMediaPayload';
 export * from './ContactMessagePayload';
 export * from './ContactMessagePayloadVcard';
+export * from './CreateInstancePayload';
 export * from './FileUpload';
 export * from './GroupCreatePayload';
 export * from './GroupInviteMessagePayload';

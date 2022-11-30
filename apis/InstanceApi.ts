@@ -16,11 +16,14 @@
 import * as runtime from '../runtime';
 import type {
   APIResponse,
+  CreateInstancePayload,
   WebhookPayload,
 } from '../models';
 import {
     APIResponseFromJSON,
     APIResponseToJSON,
+    CreateInstancePayloadFromJSON,
+    CreateInstancePayloadToJSON,
     WebhookPayloadFromJSON,
     WebhookPayloadToJSON,
 } from '../models';
@@ -31,7 +34,7 @@ export interface ChangeWebhookUrlRequest {
 }
 
 export interface CreateInstanceRequest {
-    instanceKey?: string;
+    data: CreateInstancePayload;
 }
 
 export interface DeleteInstanceRequest {
@@ -107,13 +110,15 @@ export class InstanceApi extends runtime.BaseAPI {
      * Creates a new instance key.
      */
     async createInstanceRaw(requestParameters: CreateInstanceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<APIResponse>> {
-        const queryParameters: any = {};
-
-        if (requestParameters.instanceKey !== undefined) {
-            queryParameters['instance_key'] = requestParameters.instanceKey;
+        if (requestParameters.data === null || requestParameters.data === undefined) {
+            throw new runtime.RequiredError('data','Required parameter requestParameters.data was null or undefined when calling createInstance.');
         }
 
+        const queryParameters: any = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.apiKey) {
             headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
@@ -121,9 +126,10 @@ export class InstanceApi extends runtime.BaseAPI {
 
         const response = await this.request({
             path: `/instances/create`,
-            method: 'GET',
+            method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: CreateInstancePayloadToJSON(requestParameters.data),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => APIResponseFromJSON(jsonValue));
@@ -133,7 +139,7 @@ export class InstanceApi extends runtime.BaseAPI {
      * This endpoint is used to create a new WhatsApp Web instance.
      * Creates a new instance key.
      */
-    async createInstance(requestParameters: CreateInstanceRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
+    async createInstance(requestParameters: CreateInstanceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<APIResponse> {
         const response = await this.createInstanceRaw(requestParameters, initOverrides);
         return await response.value();
     }
